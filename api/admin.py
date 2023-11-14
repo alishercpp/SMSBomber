@@ -19,7 +19,7 @@ class StudentAdmin(UserAdmin, ModelAdmin):
         }),
     )
     add_fieldsets = (
-        ('Yangi talaba qo\'shish', {
+        ('Yangi mijoz qo\'shish', {
             "classes": ("wide", ),
             "fields": (
                 'username',
