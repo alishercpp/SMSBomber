@@ -85,7 +85,7 @@ def parse_excel(request):
                                 continue
                             text.append(cell.value)
                         if text:
-                            data["phones"] = list(map(update, list(filter(check, key.split(",")))))
+                            data["phones"] = list(map(update, list(filter(check, str(key).split(",")))))
                             data["message"] = " ".join(text)
                         if data:
                             r["data"].append(data)
