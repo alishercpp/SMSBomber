@@ -24,6 +24,7 @@ class User(AbstractUser):
     last_name   = models.CharField(max_length=100, null=False, blank=False, verbose_name="Familiya")
     middle_name = models.CharField(max_length=100, null=False, blank=False, verbose_name="Sharif")
     is_free = models.BooleanField(default=False, verbose_name="To'lov qilgan")
+    end_date = models.DateTimeField(null=True, blank=True)
 
     objects = UserManager()
 

@@ -6,10 +6,10 @@ class StudentCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "first_name", "last_name", "middle_name", "password1", "password2")
+        fields = ("username", "first_name", "last_name", "middle_name", "password1", "password2",)
 
 class StudentChangeForm(UserChangeForm):
 
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "middle_name")
+        fields = ("first_name", "last_name", "middle_name",)

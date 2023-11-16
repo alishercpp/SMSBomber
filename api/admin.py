@@ -22,7 +22,7 @@ class StudentAdmin(UserAdmin, ModelAdmin):
         ('Yangi mijoz qo\'shish', {
             "classes": ("wide", ),
             "fields": (
-                'username',
+                'username', 'password1', 'password2',
                 'first_name', 'last_name', 'middle_name', 'is_free',
             ),
         }),
