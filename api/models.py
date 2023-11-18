@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from .managers import UserManager
 from random import choice
 from string import ascii_letters
+from datetime import datetime, timedelta
 
 
 def token():
@@ -35,6 +36,10 @@ class User(AbstractUser):
     
     def save(self, *args, **kwargs):
         self.token = token()
+        if self.is_free:
+            now = datetime.now()
+            end_date = now + timedelta(days=30)
+            self.end_date = end_date
         return super().save(*args, **kwargs)
 
     class Meta:

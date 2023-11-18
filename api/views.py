@@ -1,9 +1,10 @@
 from django.shortcuts import render
+from openpyxl import Workbook, load_workbook
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from datetime import datetime, timedelta
 from .models import User
 import requests
-from openpyxl import Workbook, load_workbook
 
 
 def home(request):
@@ -56,6 +57,11 @@ def parse_excel(request):
         username = request.data.get("phone_number")
         password = request.data.get("password")
         file = request.data.get("file")
+        hour = request.data.get("hour")
+        if int(hour) < 7 or int(hour) > 19:
+            return Response({
+                "status": "timeout",
+            })
         user = User.objects.filter(username=username)
         if user:
             user = user.first()
@@ -64,14 +70,22 @@ def parse_excel(request):
                     "status": "false",  
                 })
             if password == user.token:
+                now = datetime.now()
+                days = (user.end_date.date() - now.date()).days
+                if int(days) < 0:
+                    return Response({
+                        "status": "stopped",
+                    })
                 try:
                     res = requests.get(url=file)
                     with open(f"{user.token}.xlsx", "wb") as f:
                         f.write(res.content)
                     wb = load_workbook(f"{user.token}.xlsx")
+                    # wb = load_workbook(f"new.xlsx")
                     ws = wb.active
                     r = {}
                     r["data"] = []
+                    r["days"] = days
                     c = 0
                     for row in ws.iter_rows():
                         text = []

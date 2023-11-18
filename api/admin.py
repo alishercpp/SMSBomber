@@ -12,7 +12,7 @@ class StudentAdmin(UserAdmin, ModelAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
     model = User
-    list_display = ['username', 'token', 'first_name', 'last_name', 'middle_name', 'is_free']
+    list_display = ['username', 'token', 'first_name', 'last_name', 'middle_name', 'is_free', 'end_date']
     fieldsets = (
         ('Mijozni tahrirlash', {
             'fields': ('username', 'first_name', 'last_name', 'middle_name', 'is_free'),
