@@ -22,11 +22,11 @@ def login(request):
                 "status": "timeout",
             })
         user = User.objects.filter(username=username)
-        print(user)
+        # print(user.first())
         if user:
-            user = user.first()
+            nuser = user.first()
             now = datetime.now()
-            days = (user.end_date.date() - now.date()).days
+            days = (nuser.end_date.date() - now.date()).days
             if int(days) < 0:
                 return Response({
                     "status": "stopped",
