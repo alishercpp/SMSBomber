@@ -23,6 +23,7 @@ def login(request):
             })
         user = User.objects.filter(username=username)
         if user:
+            user = user.first()
             now = datetime.now()
             days = (user.end_date.date() - now.date()).days
             if int(days) < 0:
