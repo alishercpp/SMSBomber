@@ -109,7 +109,7 @@ def parse_excel(request):
                         data = {}
                         key = None
                         for cell in row:
-                            if cell.value == None or cell.row == 1:
+                            if cell.value == None:
                                 continue
                             if cell.column == 1:
                                 key = cell.value
