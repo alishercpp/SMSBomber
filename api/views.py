@@ -118,11 +118,7 @@ def parse_excel(request):
                         if text:
                             data["phones"] = list(map(update, list(filter(check, str(key).split(",")))))
                             messages = " ".join(str(i) for i in text)
-                            length = len(messages)
-                            if length < 256:
-                                data["messages"] = messages
-                            else:
-                                ...
+                            data["message"] = messages
                         if data:
                             r["data"].append(data)
                         text = []
