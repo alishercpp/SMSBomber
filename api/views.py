@@ -22,6 +22,7 @@ def login(request):
                 "status": "timeout",
             })
         user = User.objects.filter(username=username)
+        print(user)
         if user:
             user = user.first()
             now = datetime.now()
