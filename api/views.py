@@ -30,11 +30,13 @@ def login(request):
             if int(days) < 0:
                 return Response({
                     "status": "stopped",
+                    "days": 0,
                 })
             user = user.first()
             if not user.is_free:
                 return Response({
-                    "status": "false",  
+                    "status": "false", 
+                    "days": 0 
                 })
             print(3)
             if password == user.token:
@@ -44,6 +46,7 @@ def login(request):
                 })
             return Response({
                 "status": "false",
+                "days": 0
             })
         print(2)
     print(1)
