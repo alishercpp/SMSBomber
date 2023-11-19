@@ -16,8 +16,19 @@ def login(request):
     if request.method == "POST":
         username = request.data.get("phone_number")
         password = request.data.get("password")
+        hour = request.data.get("hour")
+        if int(hour) < 7 or int(hour) > 19:
+            return Response({
+                "status": "timeout",
+            })
         user = User.objects.filter(username=username)
         if user:
+            now = datetime.now()
+            days = (user.end_date.date() - now.date()).days
+            if int(days) < 0:
+                return Response({
+                    "status": "stopped",
+                })
             user = user.first()
             if not user.is_free:
                 return Response({
@@ -100,7 +111,12 @@ def parse_excel(request):
                             text.append(cell.value)
                         if text:
                             data["phones"] = list(map(update, list(filter(check, str(key).split(",")))))
-                            data["message"] = " ".join(str(i) for i in text)
+                            messages = " ".join(str(i) for i in text)
+                            length = len(messages)
+                            if length < 256:
+                                data["messages"] = messages
+                            else:
+                                ...
                         if data:
                             r["data"].append(data)
                         text = []
