@@ -40,6 +40,7 @@ def login(request):
             if password == user.token:
                 return Response({
                     "status": "true",
+                    "days": days,
                 })
             return Response({
                 "status": "false",
