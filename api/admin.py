@@ -32,4 +32,4 @@ class StudentAdmin(UserAdmin, ModelAdmin):
 
 admin.site.unregister(Group)
 
-admin.site.register(Device)
+admin.site.register(Device, ModelAdmin)
