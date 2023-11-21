@@ -51,17 +51,17 @@ def login(request):
             if devices == 1:
                 return Response({
                     "status": "false",
-                    "days": 0
+                    "days": -1
                 })
             if int(days) < 0:
                 return Response({
                     "status": "stopped",
-                    "days": 0,
+                    "days": -2,
                 })
             if not user.is_free:
                 return Response({
                     "status": "false", 
-                    "days": 0 
+                    "days": -3
                 })
             if password == user.token:
                 Device.objects.create(
@@ -73,7 +73,7 @@ def login(request):
                 })
             return Response({
                 "status": "false",
-                "days": 0
+                "days": -4
             })
         print(2)
     print(1)
