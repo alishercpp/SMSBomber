@@ -67,7 +67,8 @@ def login(request):
                 })
             if password == user.token:
                 Device.objects.create(
-                    user=user
+                    user=user,
+                    uid=uid
                 )
                 return Response({
                     "status": "true",
