@@ -28,6 +28,9 @@ def logout(request):
             "status": "false",
             "days": 0,
         })
+    return Response({
+        "status": "false"
+    })
 # test
 @api_view(http_method_names=['GET', 'POST'])
 def login(request):
