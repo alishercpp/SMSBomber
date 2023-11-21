@@ -51,5 +51,5 @@ class Device(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     uid = models.CharField(max_length=1000, null=True, blank=True)
 
-    def __str__(self):
-        return str(self.uid)
+    # def __str__(self):
+    #     return str(self.uid)
