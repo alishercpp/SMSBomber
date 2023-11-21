@@ -49,4 +49,4 @@ class User(AbstractUser):
 
 class Device(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+    uid = models.CharField(max_length=1000, null=True, blank=True)

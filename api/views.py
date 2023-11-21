@@ -15,10 +15,11 @@ def home(request):
 def logout(request):
     if request.method == "POST":
         phone = request.data.get("phone_number")
+        uid = request.data.get("uid")
         user = User.objects.filter(username=phone)
         if user:
-            device = Device.objects.filter(user=user.first())
-            device.delete()
+            device = Device.objects.filter(uid=uid)
+            device.first().delete()
             return Response({
                 "status": "logout",
                 "days": 0,
@@ -37,18 +38,19 @@ def login(request):
         username = request.data.get("phone_number")
         password = request.data.get("password")
         hour = request.data.get("hour")
+        uid = request.data.get("uid")
+        state = request.data.get("state")
         if int(hour) < 7 or int(hour) > 19:
             return Response({
                 "status": "timeout",
             })
         user = User.objects.filter(username=username)
-        # print(user.first())
         if user:
             user = user.first()
-            devices = Device.objects.filter(user=user).count()
             now = datetime.now()
             days = (user.end_date.date() - now.date()).days
-            if devices == 1:
+            device = Device.objects.filter(uid=uid)
+            if device and state == "login":
                 return Response({
                     "status": "false",
                     "days": -1
