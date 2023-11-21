@@ -50,10 +50,10 @@ def login(request):
             user = user.first()
             now = datetime.now()
             days = (user.end_date.date() - now.date()).days
-            device = Device.objects.filter(uid=uid, user=user)
+            device = Device.objects.filter(user=user)
             if device and state == "login":
                 return Response({
-                    "status": "false",
+                    "status": "double",
                     "days": -1
                 })
             if int(days) < 0:
