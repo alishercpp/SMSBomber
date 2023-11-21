@@ -44,8 +44,8 @@ def login(request):
         user = User.objects.filter(username=username)
         # print(user.first())
         if user:
-            devices = Device.objects.filter(user=user).count()
             user = user.first()
+            devices = Device.objects.filter(user=user).count()
             now = datetime.now()
             days = (user.end_date.date() - now.date()).days
             if devices == 1:
