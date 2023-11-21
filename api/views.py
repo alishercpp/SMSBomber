@@ -3,7 +3,7 @@ from openpyxl import Workbook, load_workbook
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from datetime import datetime, timedelta
-from .models import User
+from .models import User, Device
 import requests
 
 
@@ -17,9 +17,8 @@ def logout(request):
         phone = request.data.get("phone_number")
         user = User.objects.filter(username=phone)
         if user:
-            user = user.first()
-            user.devices -= 1
-            user.save()
+            device = Device.objects.filter(user=user.first())
+            device.delete()
             return Response({
                 "status": "logout",
                 "days": 0,
@@ -45,9 +44,15 @@ def login(request):
         user = User.objects.filter(username=username)
         # print(user.first())
         if user:
+            devices = Device.objects.filter(user=user).count()
             user = user.first()
             now = datetime.now()
             days = (user.end_date.date() - now.date()).days
+            if devices == 1:
+                return Response({
+                    "status": "false",
+                    "days": 0
+                })
             if int(days) < 0:
                 return Response({
                     "status": "stopped",
@@ -58,14 +63,10 @@ def login(request):
                     "status": "false", 
                     "days": 0 
                 })
-            if user.devices == 1:
-                return Response({
-                    "status": "false",
-                    "days": 0
-                })
             if password == user.token:
-                user.devices += 1
-                user.save()
+                Device.objects.create(
+                    user=user
+                )
                 return Response({
                     "status": "true",
                     "days": days,

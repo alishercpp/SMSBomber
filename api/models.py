@@ -46,3 +46,7 @@ class User(AbstractUser):
     class Meta:
         verbose_name = "Mijoz"
         verbose_name_plural = "Mijozlar"
+
+class Device(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    

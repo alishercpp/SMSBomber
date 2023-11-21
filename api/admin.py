@@ -4,7 +4,7 @@ from unfold.admin import ModelAdmin
 from django.contrib.auth.models import Group
 
 from .forms import UserChangeForm, UserCreationForm
-from .models import User
+from .models import User, Device
 
 
 @admin.register(User)
@@ -31,3 +31,5 @@ class StudentAdmin(UserAdmin, ModelAdmin):
     ordering = ('username', )
 
 admin.site.unregister(Group)
+
+admin.site.register(Device)
