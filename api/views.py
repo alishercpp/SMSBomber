@@ -21,10 +21,10 @@ def logout(request):
             device = Device.objects.filter(uid=uid)
             if device:
                 device.first().delete()
-            return Response({
-                "status": "logout",
-                "days": 0,
-            })
+                return Response({
+                    "status": "logout",
+                    "days": 0,
+                })
         return Response({
             "status": "false",
             "days": 0,
