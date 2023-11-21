@@ -19,7 +19,8 @@ def logout(request):
         user = User.objects.filter(username=phone)
         if user:
             device = Device.objects.filter(uid=uid)
-            device.first().delete()
+            if device:
+                device.first().delete()
             return Response({
                 "status": "logout",
                 "days": 0,
