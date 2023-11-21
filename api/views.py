@@ -28,7 +28,7 @@ def logout(request):
             "status": "false",
             "days": 0,
         })
-
+# test
 @api_view(http_method_names=['GET', 'POST'])
 def login(request):
     if request.method == "POST":
