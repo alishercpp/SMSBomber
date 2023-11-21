@@ -67,6 +67,7 @@ def login(request):
                     "days": -3
                 })
             if password == user.token:
+                print(uid)
                 Device.objects.create(
                     user=user,
                     uid=uid
