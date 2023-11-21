@@ -12,6 +12,24 @@ def home(request):
 
 
 @api_view(http_method_names=['GET', 'POST'])
+def logout(request):
+    if request.method == "POST":
+        phone = request.data.get("phone_number")
+        user = User.objects.filter(username=phone)
+        if user:
+            user = user.first()
+            user.devices -= 1
+            user.save()
+            return Response({
+                "status": "logout",
+                "days": 0,
+            })
+        return Response({
+            "status": "false",
+            "days": 0,
+        })
+
+@api_view(http_method_names=['GET', 'POST'])
 def login(request):
     if request.method == "POST":
         username = request.data.get("phone_number")
@@ -24,22 +42,27 @@ def login(request):
         user = User.objects.filter(username=username)
         # print(user.first())
         if user:
-            nuser = user.first()
+            user = user.first()
             now = datetime.now()
-            days = (nuser.end_date.date() - now.date()).days
+            days = (user.end_date.date() - now.date()).days
             if int(days) < 0:
                 return Response({
                     "status": "stopped",
                     "days": 0,
                 })
-            user = user.first()
             if not user.is_free:
                 return Response({
                     "status": "false", 
                     "days": 0 
                 })
-            print(3)
+            if user.devices == 1:
+                return Response({
+                    "status": "false",
+                    "days": 0
+                })
             if password == user.token:
+                user.devices += 1
+                user.save()
                 return Response({
                     "status": "true",
                     "days": days,
